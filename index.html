@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PR-Alpha</title>
+        <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #1a1a2e;
+    color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.chat-container {
+    width: 500px;
+    max-width: 90vw;
+    background: #16213e;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+}
+
+.chat-header {
+    background: #0f3460;
+    padding: 16px;
+    text-align: center;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+    display: inline-block;
+}
+
+.message.user {
+    align-self: flex-end;
+    background: #e94560;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message.bot {
+    align-self: flex-start;
+    background: #0f3460;
+    border-bottom-left-radius: 4px;
+}
+
+.chat-input {
+    display: flex;
+    padding: 12px;
+    background: #0f3460;
+    gap: 8px;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 20px;
+    background: #1a1a2e;
+    color: #eee;
+    font-size: 14px;
+    outline: none;
+}
+
+.chat-input button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: #e94560;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s;
+}
+
+.chat-input button:hover {
+    background: #c73650;
+}
+        </style>
+    </head>
+    <body>
+        <div class="chat-container">
+            <div class="chat-header">
+                <h1>PR-Alpha</h1>
+            </div>
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Type a message...">
+                <button id="send-btn">Send</button>
+            </div>
+        </div>
+        <script>
+const responses = {
+    "how are you today?": "hai :)",
+    "hello": "hey there!",
+    "hi": "hey there!",
+    "greetings": "why are you talking so fancy? just say hi or hello or something.",
+    "what is your name?": "PR-Alpha, but you can just call me Proto!",
+    "what can you do?": "Talk. Sometimes.",
+    "goodbye": "see ya!",
+    "goon": "ew.",
+    "realizatigoon": "oh. hi isaac...",
+    "pr-alpha": "that's me!",
+    "pralpha": "there's actually a hyphen seperating PR and Alpha but that works too.",
+    "proto": "thanks for using the name i picked myself, i dont want to use what they actually named me. they named me PetRock-Alpha. really emphasizes that im useless.",
+    "garn47": "totally garnular",
+    "totally garnular": "elite ball knowledge",
+    "jarvis, rip this guy's balls off": "\"MICHAEL LOOK I NEUTURED HIM :D\" -ramsay 2026",
+    "metal spoons": "never listen to that maniac again.",
+    "kitty": "https://www.youtube.com/shorts/9ZDDoNX5G1s"
+}
+
+const chatMessages = document.getElementById('chat-messages');
+const userInput = document.getElementById('user-input');
+const sendBtn = document.getElementById('send-btn');
+
+function addMessage(text, sender) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', sender);
+    messageDiv.textContent = text;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function getBotResponse(userMessage) {
+    const key = userMessage.trim().toLowerCase();
+    return responses[key] || "i don know what u just said but ok";
+}
+
+function sendMessage() {
+    const text = userInput.value.trim();
+    if (!text) return;
+
+    addMessage(text, 'user');
+    userInput.value = '';
+
+    setTimeout(() => {
+        addMessage(getBotResponse(text), 'bot');
+    }, 300);
+}
+
+sendBtn.addEventListener('click', sendMessage);
+userInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+})
+        </script>
+    </body>
+</html>
